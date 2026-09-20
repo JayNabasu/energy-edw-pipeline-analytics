@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: energy_edw_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: energy_edw
+      POSTGRES_USER: nnpc_edw_admin
+      POSTGRES_PASSWORD: edw_secure_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pipeline_worker:
+    build: .
+    container_name: energy_edw_pipeline
+    depends_on:
+      - db
+    environment:
+      EDW_DATABASE_URL: postgresql://nnpc_edw_admin:edw_secure_password@db:5432/energy_edw
+    command: python pipeline_runner.py
+
+  dashboard:
+    build: .
+    container_name: energy_edw_dashboard
+    depends_on:
+      - db
+    environment:
+      EDW_DATABASE_URL: postgresql://nnpc_edw_admin:edw_secure_password@db:5432/energy_edw
+    ports:
+      - "8501:8501"
+    command: streamlit run dashboard/app.py --server.port=8501 --server.address=0.0.0.0
+
+volumes:
+  postgres_data:
