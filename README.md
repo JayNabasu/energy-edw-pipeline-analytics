@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Author](https://img.shields.io/badge/Author-Jerry%20A.%20Nabasu-blue.svg)](https://github.com/JayNabasu)
 
-An end-to-end Enterprise Data Warehouse (EDW) and operational analytics platform modeling upstream oil & gas telemetry (OML 119, 20, 28, 38, 49, 116), automating Joint Venture (JV) cash-call financial reconciliations (NEPL-NAPIMS), and enforcing strict data quality contracts.
+An end-to-end Enterprise Data Warehouse (EDW) and operational analytics platform modeling upstream oil & gas telemetry across multi-terrain operating concessions (deepwater, swamp, and onshore), automating Joint Venture (JV) cash-call financial reconciliations, and enforcing strict data quality contracts.
 
 ---
 
@@ -48,7 +48,7 @@ flowchart TD
 
     subgraph Analytics ["Executive BI Layer"]
         Warehouse --> StreamlitApp[Streamlit Analytics Portal]
-        StreamlitApp --> Charts[OML Asset KPI Variances]
+        StreamlitApp --> Charts[Concession KPI Variances]
         StreamlitApp --> AuditTable[Partner Variance Discrepancy Matrix]
         StreamlitApp --> CSVExport[Reconciliation Review Packs]
     end
